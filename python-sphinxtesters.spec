@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without	tests	# unit tests
+%bcond_without	tests	# unit tests [py3 tests fail with sphinx3.x+docutils0.18 combo]
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
 
@@ -14,6 +14,7 @@ Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/sphinxtesters/
 Source0:	https://files.pythonhosted.org/packages/source/s/sphinxtesters/sphinxtesters-%{version}.tar.gz
 # Source0-md5:	3df3720ba757d3d8270fed5aff622852
+Patch0:		%{name}-noconf.patch
 URL:		https://pypi.org/project/sphinxtesters/
 %if %{with python2}
 BuildRequires:	python-modules >= 1:2.7
@@ -59,18 +60,25 @@ Narzędzia do testowania rozszerzeń Sphinksa.
 
 %prep
 %setup -q -n sphinxtesters-%{version}
+%patch0 -p1
 
 %build
 %if %{with python2}
 %py_build
 
-%{?with_tests:%{__python} -m pytest sphinxtesters/tests}
+%if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+%{__python} -m pytest sphinxtesters/tests
+%endif
 %endif
 
 %if %{with python3}
 %py3_build
 
-%{?with_tests:%{__python3} -m pytest sphinxtesters/tests}
+%if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+%{__python3} -m pytest sphinxtesters/tests
+%endif
 %endif
 
 %install

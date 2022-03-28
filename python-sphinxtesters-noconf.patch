@@ -1,0 +1,33 @@
+--- sphinxtesters-0.2.3/sphinxtesters/tests/test_pagebuilder.py.orig	2019-08-07 00:44:39.000000000 +0200
++++ sphinxtesters-0.2.3/sphinxtesters/tests/test_pagebuilder.py	2022-03-28 16:50:58.786025816 +0200
+@@ -3,10 +3,14 @@
+ 
+ from os.path import (dirname, join as pjoin, isdir, isfile)
+ 
++from sphinx.errors import ConfigError
++
++NO_CONFIG_ERRORS = (IOError, ConfigError)
+ try:  # Sphinx 1.8.0b1
+-    from sphinx.errors import ApplicationError as NoConfigError
++    from sphinx.errors import ApplicationError
++    NO_CONFIG_ERRORS = (IOError, ConfigError, ApplicationError)
+ except ImportError:
+-    from sphinx.errors import ConfigError as NoConfigError
++    pass
+ 
+ from sphinxtesters.sphinxutils import PageBuilder
+ 
+@@ -81,10 +85,10 @@ def test_bad_pagebuilder():
+         def set_page_source(cls):
+             cls.page_source = HERE
+ 
+-    # ConfigError as of Sphinx 1.6.6
+-    # ApplicationError as of 1.8.0b1
++    # ConfigError as of Sphinx 1.6.6 or 4.5.0
++    # ApplicationError as of 1.8.0b1-3.5.x
+     # See imports.
+-    with pytest.raises((IOError, NoConfigError)):
++    with pytest.raises(NO_CONFIG_ERRORS):
+         TestBadPageBuilder.setup_class()
+ 
+ 
