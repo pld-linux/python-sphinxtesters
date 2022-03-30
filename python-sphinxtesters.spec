@@ -8,7 +8,7 @@ Summary:	Utilities for testing Sphinx extensions
 Summary(pl.UTF-8):	Narzędzia do testowania rozszerzeń Sphinksa
 Name:		python-sphinxtesters
 Version:	0.2.3
-Release:	4
+Release:	5
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/sphinxtesters/
