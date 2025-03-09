@@ -60,7 +60,7 @@ Narzędzia do testowania rozszerzeń Sphinksa.
 
 %prep
 %setup -q -n sphinxtesters-%{version}
-%patch0 -p1
+%patch -P 0 -p1
 
 %build
 %if %{with python2}
