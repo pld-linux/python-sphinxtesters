@@ -2,11 +2,12 @@
 # Conditional build:
 %bcond_without	tests	# unit tests [py3 tests fail with sphinx3.x+docutils0.18 combo]
 %bcond_without	python2 # CPython 2.x module
-%bcond_without	python3 # CPython 3.x module
+%bcond_with	python3 # CPython 3.x module (built from python3-sphinxtesters.spec)
 
 Summary:	Utilities for testing Sphinx extensions
 Summary(pl.UTF-8):	Narzędzia do testowania rozszerzeń Sphinksa
 Name:		python-sphinxtesters
+# keep 0.2.3 here for python2 support
 Version:	0.2.3
 Release:	7
 License:	BSD
